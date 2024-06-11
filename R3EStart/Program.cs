@@ -1,7 +1,9 @@
 ﻿using R3EStart.Overlays.StartLight;
 using System;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace Overlay.NET.Demo {
+namespace R3EStart {
 	/// <summary>
 	/// </summary>
 	public static class Program {
@@ -10,8 +12,13 @@ namespace Overlay.NET.Demo {
 		/// </summary>
 		[STAThread]
 		public static void Main() {
-			var startLightOverlay = new StartLightStarter();
-			startLightOverlay.Start("RRRE64");
+			Task.Run(() => {
+				var startLightOverlay = new StartLightStarter();
+				startLightOverlay.Start("RRRE64");
+			});
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+			Application.Run(new StartWindow());
 		}
 	}
 }
