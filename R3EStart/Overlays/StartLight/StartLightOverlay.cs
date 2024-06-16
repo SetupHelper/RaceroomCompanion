@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net;
+using log4net.Appender;
 using Overlay.NET.Common;
 using Overlay.NET.Directx;
 using Process.NET.Windows;
@@ -20,21 +22,25 @@ namespace R3EStart.Overlays.StartLight {
 		private int greenBrush;
 		private int blackBrush;
 		private int whiteBrush;
-		private int fps = 60;
+		private int fps = 90;
 		public int UpdateRate => 1000 / fps;
 		private R3EData R3EData;
 		private int greenLightDistance;
-		private int allowedStartSpeed = 60;
+		private int allowedStartSpeed = 0;
 		private int yCorrection => this.OverlayWindow.Height / 4;
 		private int WidthDependingOnScreenHeight => this.OverlayWindow.Height / 8;
 		private DriverData PoleSetter => R3EData.myData.DriverData.FirstOrDefault();
+		//private static readonly ILog log = LogManager.GetLogger(typeof(Program) );
+		private static readonly ILog log = LogManager.GetLogger("RollingFileAppender");
 
 		public override void Initialize(IWindow targetWindow) {
+			log.Info("Starting R3EStart overlay");
 			base.Initialize(targetWindow);
 			R3EData = Utilities.MapData();
 			int seed = DateTime.Now.Year * 10000 + DateTime.Now.Month * 100 + DateTime.Now.Day;
 			Random random = new Random(seed);
 			greenLightDistance = new Random(seed).Next(5, 120);
+			log.Info($"greenLightDistance: {greenLightDistance}");
 			OverlayWindow = new DirectXOverlayWindow(targetWindow.Handle, false);
 			var transparency = 160;
 			greenBrush = OverlayWindow.Graphics.CreateBrush(System.Drawing.Color.FromArgb(transparency, 0, 100, 0));
@@ -49,12 +55,24 @@ namespace R3EStart.Overlays.StartLight {
 		}
 
 		private void OnTick(object sender, EventArgs e) {
-			if (!OverlayWindow.IsVisible) {
-				return;
+			try {
+				if (!OverlayWindow.IsVisible) {
+					return;
+				}
+				R3EData.Read();
+				if (allowedStartSpeed <= 0) {
+					var speedLimit = Math.Round(GetSpeedInKmh(R3EData.myData.SessionPitSpeedLimit));
+					if (int.TryParse(speedLimit.ToString(), out allowedStartSpeed)) {
+						log.Info($"Parsing allowed start speed:{allowedStartSpeed} ");
+					} else {
+						log.Error($"Parsing allowed Start Speed not possible, value {R3EData.myData.SessionPitSpeedLimit}");
+					}
+				}
+				OverlayWindow.Update();
+				InternalRender();
+			} catch (Exception ex) {
+				log.Error(ex.Message);
 			}
-			R3EData.Read();
-			OverlayWindow.Update();
-			InternalRender();
 		}
 
 		private void OnPreTick(object sender, EventArgs e) {
@@ -81,10 +99,20 @@ namespace R3EStart.Overlays.StartLight {
 		public override void Update() => _tickEngine.Pulse();
 
 		protected async void InternalRender() {
-			bool greenlight= false;
+			bool greenlight = false;
 			OverlayWindow.Graphics.BeginScene();
 			OverlayWindow.Graphics.ClearScene();
 			var remainingLapDistance = ComputeRemainingLapDistance();
+			int centerX = this.TargetWindow.Width / 2;
+			int centerY = this.TargetWindow.Height / 2 - yCorrection;
+			foreach (var item in R3EData.myData.DriverData.Where(x=>x.DriverInfo.SlotId >= 0)) {
+				OverlayWindow.Graphics.DrawText($"{item.DriverInfo.SlotId} / {item.Place}", largeFont, blackBrush, centerX, centerY);
+				centerY += 40;
+			}
+			OverlayWindow.Graphics.DrawText($"{R3EData.myData.DriverData[0].DriverInfo.SlotId} / {R3EData.myData.DriverData[0].Place}", largeFont, blackBrush, centerX, centerY);
+			OverlayWindow.Graphics.DrawText($"{R3EData.myData.DriverData[1].DriverInfo.SlotId} / {R3EData.myData.DriverData[1].Place}", largeFont, blackBrush, centerX, centerY + 40);
+			OverlayWindow.Graphics.DrawText($"{R3EData.myData.DriverData[2].DriverInfo.SlotId} / {R3EData.myData.DriverData[2].Place}", largeFont, blackBrush, centerX, centerY + 80);
+			OverlayWindow.Graphics.DrawText($"{R3EData.myData.DriverData[2].DriverInfo.SlotId} / {R3EData.myData.DriverData[2].Place}", largeFont, blackBrush, centerX, centerY + 80);
 			if (DisplayOverlays()) {
 				if (remainingLapDistance > 1000) {
 					DisplaySafetyCarSign();
@@ -105,10 +133,6 @@ namespace R3EStart.Overlays.StartLight {
 			}
 		}
 
-		private void EnsureGreenLightIsDisplayedThreeSeconds() {
-			throw new NotImplementedException();
-		}
-
 		private bool DisplayOverlays() {
 			if (R3EData.myData.SessionType != (int)Session.Race)
 				return false;
@@ -121,8 +145,6 @@ namespace R3EStart.Overlays.StartLight {
 			if (R3EData.myData.StartLights < 6)
 				return false;
 			if (R3EData.myData.SessionPhase != 5)
-				return false;
-			if (R3EData.myData.TrackSector <= 0)
 				return false;
 			return true;
 		}
@@ -154,7 +176,7 @@ namespace R3EStart.Overlays.StartLight {
 			int centerX = this.TargetWindow.Width / 2 - barWidth / 2;
 			int centerY = this.TargetWindow.Height / 2 - yCorrection + 70;
 			var barColor = greenBrush;
-			var speedInKmh = GetSpeedInKmh();
+			var speedInKmh = GetSpeedInKmh(R3EData.myData.CarSpeed);
 			if (speedInKmh > allowedStartSpeed + 4) {
 				barColor = yellowBrush;
 			}
@@ -168,16 +190,17 @@ namespace R3EStart.Overlays.StartLight {
 		private void DisplayGreenLight() {
 			OverlayWindow.Graphics.FillCircle(this.TargetWindow.Width / 2, this.TargetWindow.Height / 2, 45, blackBrush);
 			OverlayWindow.Graphics.FillCircle(this.TargetWindow.Width / 2, this.TargetWindow.Height / 2, 40, greenBrush);
+			log.Info("Displaying Green Light");
 		}
 
 		private float GetSpeedPercentage() {
-			var speedInKmh = GetSpeedInKmh();
+			var speedInKmh = GetSpeedInKmh(R3EData.myData.CarSpeed);
 			var percentage = 100 / (float)allowedStartSpeed * speedInKmh;
 			return percentage;
 		}
 
-		private float GetSpeedInKmh() {
-			var speedInKmh = R3EData.myData.CarSpeed * 3.6f;
+		private float GetSpeedInKmh(float speed) {
+			var speedInKmh = speed * 3.6f;
 			return speedInKmh;
 		}
 
