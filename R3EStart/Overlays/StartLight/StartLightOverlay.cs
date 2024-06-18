@@ -1,13 +1,11 @@
 using System;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using log4net;
-using log4net.Appender;
 using Overlay.NET.Common;
 using Overlay.NET.Directx;
 using Process.NET.Windows;
-using ReStart.Helpers;
+using R3EStart.Helpers;
 using ReStart.R3E;
 using ReStart.R3E.Data;
 
@@ -25,22 +23,19 @@ namespace R3EStart.Overlays.StartLight {
 		private int fps = 90;
 		public int UpdateRate => 1000 / fps;
 		private R3EData R3EData;
-		private int greenLightDistance;
 		private int allowedStartSpeed = 0;
 		private int yCorrection => this.OverlayWindow.Height / 4;
 		private int WidthDependingOnScreenHeight => this.OverlayWindow.Height / 8;
 		private DriverData PoleSetter => R3EData.myData.DriverData.FirstOrDefault();
-		//private static readonly ILog log = LogManager.GetLogger(typeof(Program) );
 		private static readonly ILog log = LogManager.GetLogger("RollingFileAppender");
+		public OverlayDistances overlayDistances;
 
 		public override void Initialize(IWindow targetWindow) {
 			log.Info("Starting R3EStart overlay");
 			base.Initialize(targetWindow);
 			R3EData = Utilities.MapData();
-			int seed = DateTime.Now.Year * 10000 + DateTime.Now.Month * 100 + DateTime.Now.Day;
-			Random random = new Random(seed);
-			greenLightDistance = new Random(seed).Next(5, 120);
-			log.Info($"greenLightDistance: {greenLightDistance}");
+			overlayDistances = new OverlayDistances();
+			log.Info($"greenLightDistance: {overlayDistances.GreenLightDistance}");
 			OverlayWindow = new DirectXOverlayWindow(targetWindow.Handle, false);
 			var transparency = 160;
 			greenBrush = OverlayWindow.Graphics.CreateBrush(System.Drawing.Color.FromArgb(transparency, 0, 100, 0));
@@ -103,24 +98,14 @@ namespace R3EStart.Overlays.StartLight {
 			OverlayWindow.Graphics.BeginScene();
 			OverlayWindow.Graphics.ClearScene();
 			var remainingLapDistance = ComputeRemainingLapDistance();
-			int centerX = this.TargetWindow.Width / 2;
-			int centerY = this.TargetWindow.Height / 2 - yCorrection;
-			foreach (var item in R3EData.myData.DriverData.Where(x=>x.DriverInfo.SlotId >= 0)) {
-				OverlayWindow.Graphics.DrawText($"{item.DriverInfo.SlotId} / {item.Place}", largeFont, blackBrush, centerX, centerY);
-				centerY += 40;
-			}
-			OverlayWindow.Graphics.DrawText($"{R3EData.myData.DriverData[0].DriverInfo.SlotId} / {R3EData.myData.DriverData[0].Place}", largeFont, blackBrush, centerX, centerY);
-			OverlayWindow.Graphics.DrawText($"{R3EData.myData.DriverData[1].DriverInfo.SlotId} / {R3EData.myData.DriverData[1].Place}", largeFont, blackBrush, centerX, centerY + 40);
-			OverlayWindow.Graphics.DrawText($"{R3EData.myData.DriverData[2].DriverInfo.SlotId} / {R3EData.myData.DriverData[2].Place}", largeFont, blackBrush, centerX, centerY + 80);
-			OverlayWindow.Graphics.DrawText($"{R3EData.myData.DriverData[2].DriverInfo.SlotId} / {R3EData.myData.DriverData[2].Place}", largeFont, blackBrush, centerX, centerY + 80);
 			if (DisplayOverlays()) {
-				if (remainingLapDistance > 1000) {
+				if (remainingLapDistance > overlayDistances.SpeedLimitDistance) {
 					DisplaySafetyCarSign();
-				}
-				if (remainingLapDistance <= 1000 && remainingLapDistance > greenLightDistance) {
+				} else if (remainingLapDistance <= overlayDistances.SpeedLimitDistance && remainingLapDistance > overlayDistances.RedLightDistance) {
 					DisplaySpeedLimiter();
-				}
-				if (remainingLapDistance <= greenLightDistance) {
+				} else if (remainingLapDistance <= overlayDistances.RedLightDistance && remainingLapDistance > overlayDistances.GreenLightDistance) {
+					DisplayRedLight();
+				} else if (remainingLapDistance <= overlayDistances.GreenLightDistance) {
 					greenlight = true;
 					_tickEngine.Stop();
 					DisplayGreenLight();
@@ -187,9 +172,24 @@ namespace R3EStart.Overlays.StartLight {
 			OverlayWindow.Graphics.DrawText($"{(int)speedInKmh} km/h", smallFont, blackBrush, centerX, centerY);
 		}
 
+		private void DisplayRedLight() {
+			DrawStartLight(redBrush);
+			log.Info("Displaying red Light");
+		}
+
+		private void DrawStartLight(int brushColor) {
+			var x = this.TargetWindow.Width / 2 - 190;
+			var y = this.TargetWindow.Height / 2 - yCorrection;
+			for (int i = 0; i < 5; i++) {
+				OverlayWindow.Graphics.FillCircle(x, y, 45, blackBrush);
+				OverlayWindow.Graphics.FillCircle(x, y, 40, brushColor);
+				x += 95;
+			}
+		}
+
+
 		private void DisplayGreenLight() {
-			OverlayWindow.Graphics.FillCircle(this.TargetWindow.Width / 2, this.TargetWindow.Height / 2, 45, blackBrush);
-			OverlayWindow.Graphics.FillCircle(this.TargetWindow.Width / 2, this.TargetWindow.Height / 2, 40, greenBrush);
+			DrawStartLight(greenBrush);
 			log.Info("Displaying Green Light");
 		}
 
