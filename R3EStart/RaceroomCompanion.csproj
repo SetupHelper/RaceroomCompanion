@@ -133,7 +133,6 @@
     <Compile Include="Overlays\Helpers\Constants.cs" />
     <Compile Include="Overlays\Helpers\Enumerations.cs" />
     <Compile Include="Overlays\Helpers\StartLightGreenDistanceRandomizer.cs" />
-    <Compile Include="Overlays\OverlayStarter.cs" />
     <Compile Include="Overlays\StartLight\StartLightOverlayApplication.cs" />
     <Compile Include="Overlays\StartLight\StartLightOverlayView.cs" />
     <Compile Include="Views\StartWindow.cs">

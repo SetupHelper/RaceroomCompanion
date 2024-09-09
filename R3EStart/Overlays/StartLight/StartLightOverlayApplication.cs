@@ -10,8 +10,6 @@ namespace RaceroomCompanion.Overlays.StartLight {
 
 	public class StartLightOverlayApplication : RaceroomCompanionOverlayApplication {
 
-		private int fps = 90;
-		internal int UpdateRate => 1000 / fps;
 		private readonly R3EData R3EData;
 		internal int AllowedStartSpeed = 0;
 		private DriverData PoleSetter => R3EData.MyData.DriverData.FirstOrDefault();

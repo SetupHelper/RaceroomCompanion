@@ -56,9 +56,6 @@ namespace RaceroomCompanion.Overlays.OverlayView {
 			MyTickEngine.Tick += OnTick;
 		}
 
-		internal abstract void OnTick(object sender, EventArgs e);
-		internal abstract void OnPreTick(object sender, EventArgs e);
-
 		public override void Enable() {
 			MyTickEngine.Interval = UpdateRate.Milliseconds();
 			MyTickEngine.IsTicking = true;
@@ -84,6 +81,9 @@ namespace RaceroomCompanion.Overlays.OverlayView {
 			OverlayWindow.Graphics.ClearScene();
 			OverlayWindow.Graphics.EndScene();
 		}
+
+		internal abstract void OnTick(object sender, EventArgs e);
+		internal abstract void OnPreTick(object sender, EventArgs e);
 
 
 	}

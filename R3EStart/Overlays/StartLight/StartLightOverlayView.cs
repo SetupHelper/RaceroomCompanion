@@ -45,7 +45,7 @@ namespace RaceroomCompanion.Overlays.StartLight {
 
 		internal override void OnPreTick(object sender, EventArgs e) {
 			var targetWindowIsActivated = this.TargetWindow.IsActivated;
-			if ((!targetWindowIsActivated && this.OverlayWindow.IsVisible) || !this.ShowText ) {
+			if (!targetWindowIsActivated && this.OverlayWindow.IsVisible) {
 				ClearScreen();
 				OverlayWindow.Hide();
 			} else if (targetWindowIsActivated && !this.OverlayWindow.IsVisible ) {
