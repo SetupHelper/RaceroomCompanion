@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace ReStart.R3E
+namespace RaceroomSharedMemory.R3E
 {
     class Constant
     {
@@ -205,7 +205,7 @@ namespace ReStart.R3E
     namespace Data
     {
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct RaceDuration<T>
+        public struct RaceDuration<T>
         {
             public T Race1;
             public T Race2;
@@ -213,7 +213,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct Vector3<T>
+        public struct Vector3<T>
         {
             public T X;
             public T Y;
@@ -221,7 +221,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct Orientation<T>
+        public struct Orientation<T>
         {
             public T Pitch;
             public T Yaw;
@@ -229,7 +229,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct SectorStarts<T>
+        public struct SectorStarts<T>
         {
             public T Sector1;
             public T Sector2;
@@ -237,7 +237,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct PlayerData
+        public struct PlayerData
         {
             // Virtual physics time
             // Unit: Ticks (1 tick = 1/400th of a second)
@@ -323,7 +323,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct Flags
+        public struct Flags
         {
             // Whether yellow flag is currently active
             // -1 = no data
@@ -397,7 +397,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct CarDamage
+        public struct CarDamage
         {
             // Range: 0.0 - 1.0
             // Note: -1.0 = N/A
@@ -422,7 +422,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct TireData<T>
+        public struct TireData<T>
         {
             public T FrontLeft;
             public T FrontRight;
@@ -431,7 +431,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct PitMenuState
+        public struct PitMenuState
         {
             // Pit menu preset
             public Int32 Preset;
@@ -452,7 +452,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct CutTrackPenalties
+        public struct CutTrackPenalties
         {
             public Int32 DriveThrough;
             public Int32 StopAndGo;
@@ -462,7 +462,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct DRS
+        public struct DRS
         {
             // If DRS is equipped and allowed
             // 0 = No, 1 = Yes, -1 = N/A
@@ -480,7 +480,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct PushToPass
+        public struct PushToPass
         {
             public Int32 Available;
             public Int32 Engaged;
@@ -490,7 +490,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct TireTempInformation
+        public struct TireTempInformation
         {
             public TireTemperature<Single> CurrentTemp;
             public Single OptimalTemp;
@@ -499,7 +499,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct BrakeTemp
+        public struct BrakeTemp
         {
             public Single CurrentTemp;
             public Single OptimalTemp;
@@ -508,7 +508,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct TireTemperature<T>
+        public struct TireTemperature<T>
         {
             public T Left;
             public T Center;
@@ -516,7 +516,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct AidSettings
+        public struct AidSettings
         {
             // ABS; -1 = N/A, 0 = off, 1 = on, 5 = currently active
             public Int32 Abs;
@@ -531,7 +531,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct Sectors<T>
+        public struct Sectors<T>
         {
             public T Sector1;
             public T Sector2;
@@ -539,7 +539,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct DriverInfo
+        public struct DriverInfo
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
             public byte[] Name; // UTF-8
@@ -559,7 +559,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct DriverData
+        public struct DriverData
         {
             public DriverInfo DriverInfo;
             // Note: See the R3E.Constant.FinishStatus enum
@@ -665,7 +665,7 @@ namespace ReStart.R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct Shared
+        public struct Shared
         {
             //////////////////////////////////////////////////////////////////////////
             // Version

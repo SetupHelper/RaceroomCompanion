@@ -1,8 +1,8 @@
-﻿using R3EStart.Helpers;
+﻿using RaceroomSharedMemory.Objects;
 using System.Linq;
 using System.Threading;
 
-namespace ReStart.R3E {
+namespace RaceroomSharedMemory.R3E {
 	public class Utilities {
 
 		public static bool IsRrreRunningIn64() {

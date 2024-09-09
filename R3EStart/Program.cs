@@ -1,9 +1,11 @@
-﻿using R3EStart.Overlays.StartLight;
+﻿using RaceroomCompanion.Overlays;
+using RaceroomCompanion.Overlays.Helpers;
+using RaceroomCompanion.Overlays.StartLight;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace R3EStart {
+namespace RaceroomCompanion {
 	/// <summary>
 	/// </summary>
 	public static class Program {
@@ -13,9 +15,9 @@ namespace R3EStart {
 		[STAThread]
 		public static void Main() {
 			Task.Run(() => {
-				var startLightOverlay = new StartLightStarter();
-				startLightOverlay.Start("RRRE64");
+				var startLightOverlay = new StartLightOverlayApplication(Constants.R3EName64);
 			});
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new StartWindow());

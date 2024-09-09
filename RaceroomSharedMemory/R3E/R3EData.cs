@@ -1,13 +1,10 @@
-﻿using ReStart.R3E.Data;
+﻿using RaceroomSharedMemory.R3E.Data;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Windows;
 
-namespace ReStart.R3E
+namespace RaceroomSharedMemory.R3E
 {
     public class R3EData : IDisposable
     {
@@ -16,7 +13,7 @@ namespace ReStart.R3E
             get { return (_file != null); }
         }
 
-        internal Shared myData { get; private set; }
+        public Shared MyData { get; private set; }
         private MemoryMappedFile _file;
         private byte[] _buffer;
 
@@ -41,7 +38,7 @@ namespace ReStart.R3E
             }
         }
 
-        internal bool Read()
+        public bool Read()
         {
             try
             {
@@ -49,7 +46,7 @@ namespace ReStart.R3E
                 BinaryReader _stream = new BinaryReader(_view);
                 _buffer = _stream.ReadBytes(Marshal.SizeOf(typeof(Shared)));
                 GCHandle _handle = GCHandle.Alloc(_buffer, GCHandleType.Pinned);
-                myData = (Shared)Marshal.PtrToStructure(_handle.AddrOfPinnedObject(), typeof(Shared));
+                MyData = (Shared)Marshal.PtrToStructure(_handle.AddrOfPinnedObject(), typeof(Shared));
                 _handle.Free();
 
                 return true;
