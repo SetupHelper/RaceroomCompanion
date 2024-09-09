@@ -29,6 +29,10 @@ namespace RaceroomCompanion.Overlays.StartLight {
 				if (!OverlayWindow.IsVisible) {
 					return;
 				}
+				if (this.MyApp.CancelToken.IsCancellationRequested) {
+					this.Dispose();
+					return;
+				}
 				this.MyApp.UpdateData();
 				OverlayWindow.Graphics.BeginScene();
 				OverlayWindow.Graphics.ClearScene();

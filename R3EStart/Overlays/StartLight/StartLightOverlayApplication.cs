@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading;
 using log4net;
 using RaceroomCompanion.Overlays.Helpers;
 using RaceroomCompanion.Overlays.OverlayView;
@@ -15,12 +16,15 @@ namespace RaceroomCompanion.Overlays.StartLight {
 		private DriverData PoleSetter => R3EData.MyData.DriverData.FirstOrDefault();
 		private static readonly ILog log = LogManager.GetLogger("RollingFileAppender");
 		public StartLightGreenDistanceRandomizer distanceRandomizer;
-		private readonly StartLightOverlayView myStartLightView;
+		private StartLightOverlayView myStartLightView;
 
 		public StartLightOverlayApplication(string processName) : base(processName) {
 			log.Info("Starting R3EStart overlay");
 			R3EData = Utilities.MapData();
 			distanceRandomizer = new StartLightGreenDistanceRandomizer();
+		}
+
+		internal void Start() {
 			myStartLightView = new StartLightOverlayView(this);
 		}
 

@@ -73,6 +73,7 @@ namespace RaceroomCompanion.Overlays.OverlayView {
 
 		public override void Dispose() {
 			OverlayWindow.Dispose();
+			this.MyApp.IsRunning = false;
 			base.Dispose();
 		}
 
