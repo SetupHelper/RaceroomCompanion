@@ -127,6 +127,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Overlays\Helpers\FontGetter.cs" />
     <Compile Include="Overlays\OverlayView\RaceroomCompanionOverlayApplication.cs" />
     <Compile Include="Overlays\OverlayView\RaceroomCompanionOverlayView.cs" />
     <Compile Include="Overlays\Helpers\Constants.cs" />
