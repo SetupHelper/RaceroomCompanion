@@ -1,9 +1,6 @@
-﻿using Process.NET.Assembly.CallingConventions;
-using R3EStart;
+﻿using R3EStart;
 using RaceroomCompanion.Overlays.Helpers;
 using RaceroomCompanion.Overlays.StartLight;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 public class StartWindow : Form {
@@ -26,7 +23,7 @@ public class StartWindow : Form {
 		// button1
 		// 
 		this.StartOverlayButton.Location = new System.Drawing.Point(110, 89);
-		this.StartOverlayButton.Name = "button1";
+		this.StartOverlayButton.Name = "Startlight";
 		this.StartOverlayButton.Size = new System.Drawing.Size(75, 23);
 		this.StartOverlayButton.TabIndex = 0;
 		this.StartOverlayButton.Text = "Startlight";
