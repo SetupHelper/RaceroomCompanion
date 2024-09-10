@@ -7,14 +7,14 @@
     <ProjectGuid>{DBC09A34-CD3F-4D2A-8DD4-C768D36284FE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>R3EStart</RootNamespace>
-    <AssemblyName>R3EStart</AssemblyName>
+    <RootNamespace>RaceroomCompanion</RootNamespace>
+    <AssemblyName>RaceroomCompanion</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>C:\Users\marco\source\repos\R3EStartPublish\</PublishUrl>
+    <PublishUrl>C:\Users\marco\source\repos\RaceroomCompanionPublish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -24,8 +24,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>https://github.com/SetupHelper/R3EStart/releases/</InstallUrl>
-    <ProductName>R3EStart</ProductName>
+    <InstallUrl>https://github.com/SetupHelper/RaceroomCompanionStart/releases/</InstallUrl>
+    <ProductName>RaceroomCompanion</ProductName>
     <PublisherName>Maegges</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
@@ -68,7 +68,7 @@
     <ManifestCertificateThumbprint>4D420B66DF70934C8F36828A136046CC36A45859</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>R3EStart_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>RaceroomCompanion_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -166,7 +166,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="R3EStart_TemporaryKey.pfx" />
     <None Include="Resources\R3EStart.png" />
   </ItemGroup>
   <ItemGroup>

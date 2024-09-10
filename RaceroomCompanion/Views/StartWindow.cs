@@ -11,7 +11,7 @@ public class StartWindow : Form {
 		this.Width = 400;
 		this.Height = 600;
 		this.ShowInTaskbar = true;
-		this.Icon = Resources.R3EStart;
+		//this.Icon = Resources.R3EStart;
 		this.Text = $"{Constants.RaceroomCompanion} - {this.ProductVersion}";
 		this.InitializeComponent();
 	}
