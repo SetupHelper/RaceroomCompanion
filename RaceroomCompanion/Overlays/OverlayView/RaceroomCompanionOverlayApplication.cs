@@ -4,6 +4,7 @@ using RaceroomSharedMemory.R3E;
 using Process.NET.Windows;
 using R3EStart.Overlays.Helpers;
 using System.Threading;
+using PenaltyProcessor.Objects;
 
 namespace RaceroomCompanion.Overlays.OverlayView {
 
@@ -11,6 +12,7 @@ namespace RaceroomCompanion.Overlays.OverlayView {
 
 		public IWindow HookWindow { get; }
 		internal readonly FontCollector FontGetter;
+		private TrackVectorCollection trackVectors;
 		internal bool IsRunning { get; set; }
 		internal readonly CancellationTokenSource MyCancellationTokenSource;
 		internal CancellationToken CancelToken => MyCancellationTokenSource.Token;
@@ -22,6 +24,11 @@ namespace RaceroomCompanion.Overlays.OverlayView {
 			IsRunning = true;
 			MyCancellationTokenSource = new CancellationTokenSource();
 			FontGetter = new FontCollector();
+		}
+
+		public void InitializeTrackData(R3EData data) {
+
+			trackVectors = new TrackVectorCollection(data);
 		}
 
 	}

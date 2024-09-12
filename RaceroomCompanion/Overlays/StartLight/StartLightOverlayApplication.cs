@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
-using System.Threading;
 using log4net;
+using PenaltyProcessor;
 using RaceroomCompanion.Overlays.Helpers;
 using RaceroomCompanion.Overlays.OverlayView;
 using RaceroomSharedMemory.R3E;
@@ -11,16 +11,18 @@ namespace RaceroomCompanion.Overlays.StartLight {
 
 	public class StartLightOverlayApplication : RaceroomCompanionOverlayApplication {
 
-		private readonly R3EData R3EData;
+		internal readonly R3EData R3EData;
 		internal int AllowedStartSpeed = 0;
 		private DriverData PoleSetter => R3EData.MyData.DriverData.FirstOrDefault();
 		private static readonly ILog log = LogManager.GetLogger("RollingFileAppender");
 		public StartLightGreenDistanceRandomizer distanceRandomizer;
 		private StartLightOverlayView myStartLightView;
+		internal PenaltyLapChecker lapChecker;
 
 		public StartLightOverlayApplication(string processName) : base(processName) {
 			log.Info("Starting R3EStart overlay");
 			R3EData = Utilities.MapData();
+			lapChecker = new PenaltyLapChecker(this.R3EData);
 			distanceRandomizer = new StartLightGreenDistanceRandomizer();
 		}
 
@@ -30,6 +32,7 @@ namespace RaceroomCompanion.Overlays.StartLight {
 
 		internal void UpdateData() {
 			this.R3EData.Read();
+			lapChecker.UpdateTrackInformation(this.R3EData);
 			SetSpeedLimitForCurrentTrack();
 		}
 

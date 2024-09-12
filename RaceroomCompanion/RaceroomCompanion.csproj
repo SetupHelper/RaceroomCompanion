@@ -185,6 +185,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PenaltyProcessor\PenaltyProcessor.csproj">
+      <Project>{232F183E-1040-459F-9FA1-6922626F8EB3}</Project>
+      <Name>PenaltyProcessor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RaceroomSharedMemory\RaceroomSharedMemory.csproj">
       <Project>{41bb4d6e-c710-4731-a8e8-2dc4dc2b9903}</Project>
       <Name>RaceroomSharedMemory</Name>

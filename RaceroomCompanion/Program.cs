@@ -1,4 +1,7 @@
-﻿using System;
+﻿using RaceroomCompanion.Overlays.Helpers;
+using RaceroomCompanion.Overlays.StartLight;
+using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RaceroomCompanion {
@@ -10,6 +13,10 @@ namespace RaceroomCompanion {
 		/// </summary>
 		[STAThread]
 		public static void Main() {
+			Task.Run(() => {
+				var test = new StartLightOverlayApplication(Constants.R3EName64);
+				test.Start();
+			}); 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new StartWindow());
