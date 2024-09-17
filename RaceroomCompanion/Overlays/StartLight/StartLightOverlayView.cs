@@ -1,13 +1,10 @@
 using System;
-using System.Diagnostics;
 using System.Linq;
-using System.Numerics;
 using System.Threading;
 using Overlay.NET.Common;
 using Overlay.NET.Directx;
 using Process.NET.Windows;
 using RaceroomCompanion.Overlays.OverlayView;
-using static PenaltyProcessor.Objects.TrackVectorCollection;
 
 namespace RaceroomCompanion.Overlays.StartLight {
 
@@ -62,9 +59,6 @@ namespace RaceroomCompanion.Overlays.StartLight {
 		}
 
 		internal void RenderOverlays() {
-			if (Debugger.IsAttached) {
-				DisplayDebugInformation();
-			}
 			if (this.MyApp.DisplayOverlays()) {
 				if (this.MyApp.RenderSafetyCarSign()) {
 					this.DisplaySafetyCarSignNew();
@@ -83,7 +77,7 @@ namespace RaceroomCompanion.Overlays.StartLight {
 		internal void DisplayDebugInformation() {
 			int centerX = this.TargetWindow.Width / 2;
 			int centerY = this.TargetWindow.Height / 2;
-			var brush = MyApp.lapChecker.CurrentVectorIsInPenaltyLap(this.MyApp.R3EData) ? this.YellowSolidBrush: this.RedBrush ;
+			var brush = /*MyApp.lapChecker.CurrentVectorIsInPenaltyLap(this.MyApp.R3EData) ? this.YellowSolidBrush :*/ this.RedBrush;
 			OverlayWindow.Graphics.DrawText($"track: {MyApp.R3EData.MyData.DriverData.FirstOrDefault().LapDistance}", this.LargeNeedForFont, brush, centerX - 500, centerY - 100);
 			OverlayWindow.Graphics.DrawText($"pos x: {MyApp.R3EData.MyData.DriverData.FirstOrDefault().Position.X}", this.LargeNeedForFont, brush, centerX - 500, centerY);
 			OverlayWindow.Graphics.DrawText($"pos y: {MyApp.R3EData.MyData.DriverData.FirstOrDefault().Position.Y}", this.LargeNeedForFont, brush, centerX - 500, centerY + 100);

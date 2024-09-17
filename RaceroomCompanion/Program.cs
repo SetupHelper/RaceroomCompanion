@@ -13,10 +13,6 @@ namespace RaceroomCompanion {
 		/// </summary>
 		[STAThread]
 		public static void Main() {
-			Task.Run(() => {
-				var test = new StartLightOverlayApplication(Constants.R3EName64);
-				test.Start();
-			}); 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new StartWindow());

@@ -1,0 +1,23 @@
+﻿<Window x:Class="RaceroomCompanionZoneWriter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RaceroomCompanionZoneWriter"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="220" Width="400">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Button Name="RecordButton"  Content="Record" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" Height="67" Width="184" AutomationProperties.Name="RecordZone" Click="RecordButtonClicked" />
+        <RadioButton Name="LeftLaneLeft" Content="Left lane left" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" GroupName="LaneType" Checked="LeftLaneLeft_Checked"/>
+        <RadioButton Name="LeftLaneRight" Content="Left lane right" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" GroupName="LaneType" Checked="LeftLaneRight_Checked"/>
+        <RadioButton Name="RightLaneLeft" Content="Right lane left" HorizontalAlignment="Left" Margin="115,10,0,0" VerticalAlignment="Top" GroupName="LaneType" Checked="RightLaneLeft_Checked"/>
+        <RadioButton Name="RightLaneRight" Content="Right lane right" HorizontalAlignment="Left" Margin="115,30,0,0" VerticalAlignment="Top" GroupName="LaneType" Checked="RightLaneRight_Checked"/>
+        <RadioButton Name="PenaltyZoneLeft" Content="Penalty zone left" HorizontalAlignment="Left" Margin="236,10,0,0" VerticalAlignment="Top" GroupName="LaneType" Checked="PenaltyZoneLeft_Checked" />
+        <RadioButton Name="PenaltyZoneRight" Content="Penalty zone right" HorizontalAlignment="Left" Margin="236,30,0,0" VerticalAlignment="Top" GroupName="LaneType" Checked="PenaltyZoneRight_Checked" />
+        <Button Content="Save" HorizontalAlignment="Left" Margin="211,77,0,0" VerticalAlignment="Top" Height="67" Width="179" Click="SaveButtonClicked"/>
+
+    </Grid>
+</Window>

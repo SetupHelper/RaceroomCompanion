@@ -5,7 +5,7 @@ using static PenaltyProcessor.Objects.TrackVectorCollection;
 namespace PenaltyProcessor {
 	public class PenaltyLapChecker {
 
-		private TrackVectorCollection myTrackVectors;
+		public TrackVectorCollection myTrackVectors { get; private set; }
 
 		public PenaltyLapChecker(R3EData data) {
 			myTrackVectors = new TrackVectorCollection(data);
@@ -27,40 +27,39 @@ namespace PenaltyProcessor {
 			}
 		}
 
-		public bool CurrentVectorIsInPenaltyLap(R3EData data) {
-			if (data.MyData.LapDistance < this.myTrackVectors.penaltyLapStart) {
-				return false;
-			}
-			if (data.MyData.LapDistance > this.myTrackVectors.penaltyLapEnd) {
-				return false;
-			}
-			var pointToCheck = new Vector2<double>() {
-				X = data.MyData.Player.Position.X,
-				Y = data.MyData.Player.Position.Y
-			};
-			if (!XCoordinateIsInRange(pointToCheck)) {
-				return false;
-			}
-			if (!YCoordinateIsInRange(pointToCheck)) {
-				return false;
-			}
-			return true;
-		}
+		//public bool CurrentVectorIsInPenaltyLap(R3EData data) {
+		//	if (data.MyData.LapDistance < this.myTrackVectors.penaltyLapStart) {
+		//		return false;
+		//	}
+		//	if (data.MyData.LapDistance > this.myTrackVectors.penaltyLapEnd) {
+		//		return false;
+		//	}
+		//	var pointToCheck = new Vector2<double>() {
+		//		X = data.MyData.Player.Position.X,
+		//		Y = data.MyData.Player.Position.Y
+		//	};
+		//	if (!XCoordinateIsInRange(pointToCheck)) {
+		//		return false;
+		//	}
+		//	if (!YCoordinateIsInRange(pointToCheck)) {
+		//		return false;
+		//	}
+		//	return true;
+		//}
 
-		private bool XCoordinateIsInRange(Vector2<double> pointToCheck) {
-			var numerator = (pointToCheck.X - myTrackVectors.LocationVector.X) * myTrackVectors.DirectionalVectorInRaceDirection.X + (pointToCheck.Y - myTrackVectors.LocationVector.Y) * myTrackVectors.DirectionalVectorInRaceDirection.Y;
-			var denominator = myTrackVectors.DirectionalVectorLeftToRight.X * myTrackVectors.DirectionalVectorInRaceDirection.X + myTrackVectors.DirectionalVectorLeftToRight.Y * myTrackVectors.DirectionalVectorInRaceDirection.Y;
-			var result = numerator / denominator;
-			return result > 0 && result <= 1;
-		}
+		//private bool XCoordinateIsInRange(Vector2<double> pointToCheck) {
+		//	//var numerator = (pointToCheck.X - myTrackVectors.LocationVector.X) * myTrackVectors.DirectionalVectorInRaceDirection.X + (pointToCheck.Y - myTrackVectors.LocationVector.Y) * myTrackVectors.DirectionalVectorInRaceDirection.Y;
+		//	//var denominator = myTrackVectors.DirectionalVectorLeftToRight.X * myTrackVectors.DirectionalVectorInRaceDirection.X + myTrackVectors.DirectionalVectorLeftToRight.Y * myTrackVectors.DirectionalVectorInRaceDirection.Y;
+		//	//var result = numerator / denominator;
+		//	//return result > 0 && result <= 1;
+		//}
 
-		private bool YCoordinateIsInRange(Vector2<double> pointToCheck) {
-			var numerator = (pointToCheck.X - myTrackVectors.LocationVector.X) * myTrackVectors.DirectionalVectorLeftToRight.X + (pointToCheck.Y - myTrackVectors.LocationVector.Y) * myTrackVectors.DirectionalVectorLeftToRight.Y;
-			var denominator = myTrackVectors.DirectionalVectorLeftToRight.X * myTrackVectors.DirectionalVectorInRaceDirection.X + myTrackVectors.DirectionalVectorLeftToRight.Y * myTrackVectors.DirectionalVectorInRaceDirection.Y;
-			var result = numerator / denominator;
-			return result > 0 && result <= 1;
-
-		}
+		//private bool YCoordinateIsInRange(Vector2<double> pointToCheck) {
+		//	//var numerator = (pointToCheck.X - myTrackVectors.LocationVector.X) * myTrackVectors.DirectionalVectorLeftToRight.X + (pointToCheck.Y - myTrackVectors.LocationVector.Y) * myTrackVectors.DirectionalVectorLeftToRight.Y;
+		//	//var denominator = myTrackVectors.DirectionalVectorLeftToRight.X * myTrackVectors.DirectionalVectorInRaceDirection.X + myTrackVectors.DirectionalVectorLeftToRight.Y * myTrackVectors.DirectionalVectorInRaceDirection.Y;
+		//	//var result = numerator / denominator;
+		//	//return result > 0 && result <= 1;
+		//}
 
 	}
 

@@ -17,12 +17,10 @@ namespace RaceroomCompanion.Overlays.StartLight {
 		private static readonly ILog log = LogManager.GetLogger("RollingFileAppender");
 		public StartLightGreenDistanceRandomizer distanceRandomizer;
 		private StartLightOverlayView myStartLightView;
-		internal PenaltyLapChecker lapChecker;
 
 		public StartLightOverlayApplication(string processName) : base(processName) {
 			log.Info("Starting R3EStart overlay");
 			R3EData = Utilities.MapData();
-			lapChecker = new PenaltyLapChecker(this.R3EData);
 			distanceRandomizer = new StartLightGreenDistanceRandomizer();
 		}
 
@@ -32,7 +30,6 @@ namespace RaceroomCompanion.Overlays.StartLight {
 
 		internal void UpdateData() {
 			this.R3EData.Read();
-			lapChecker.UpdateTrackInformation(this.R3EData);
 			SetSpeedLimitForCurrentTrack();
 		}
 
